@@ -4,17 +4,17 @@ class Bag(
     var _amount: Long,
     private val invitation: Invitation? = null
 ) {
-
-    private var _ticket: Ticket? = null
+    var ticket: Ticket? = null
+        private set
 
     fun hold(ticket: Ticket): Long = when {
         hasInvitation() -> {
-            _ticket = ticket
+            this.ticket = ticket
             0L
         }
 
         else -> {
-            _ticket = ticket
+            this.ticket = ticket
             minusAmount(ticket.fee)
             ticket.fee
         }
