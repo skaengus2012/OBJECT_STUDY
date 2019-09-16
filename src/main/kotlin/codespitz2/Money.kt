@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2007 The Android Open Source Project
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *        http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,32 +14,24 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.41'
-}
+package codespitz2
 
-group 'com.github.skaengus2012'
-version '1.0-SNAPSHOT'
+/**
+ * 값 객체
+ *
+ * 값의 성질을 띄고 있는 객체로, 모든 필드는 불변 새로 만들어져야함
+ */
+data class Money(private val amount: Double) {
 
-sourceCompatibility = 1.8
+    fun minus(target: Money) = copy(amount = if (amount > target.amount) {
+        amount - target.amount
+    } else {
+        0.0
+    })
 
-repositories {
-    mavenCentral()
-}
+    fun plus(target: Money) = copy(amount = amount + target.amount)
 
-dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    fun multi(times: Double) = copy(amount = amount * times)
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    testCompile "org.jetbrains.kotlin:kotlin-test"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit"
-}
-
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    fun greaterThan(target: Money) = amount >= target.amount
 }
