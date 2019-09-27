@@ -20,7 +20,13 @@ import codespitz4.review.Developer;
 import codespitz4.review.Program;
 import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Inject;
+
 public final class BackEnd extends Developer<ServerClient> {
+
+    @Inject
+    public BackEnd() {
+    }
 
     @NotNull
     @Override

@@ -21,7 +21,13 @@ import codespitz4.review.client.FrontPage;
 import codespitz4.review.Program;
 import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Inject;
+
 public final class ServerClientFrontEnd extends Developer<ServerClient> {
+
+    @Inject
+    public ServerClientFrontEnd() {
+    }
 
     @NotNull
     @Override

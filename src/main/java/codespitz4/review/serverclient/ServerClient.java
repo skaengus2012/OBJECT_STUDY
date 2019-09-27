@@ -31,7 +31,8 @@ public final class ServerClient implements Paper {
     @NotNull
     private final Language frontEndLanguage;
 
-    public ServerClient(@NotNull Server server, @NotNull Language backEndLanguage, @NotNull Language frontEndLanguage) {
+    public ServerClient(
+            @NotNull Server server, @NotNull Language backEndLanguage, @NotNull Language frontEndLanguage) {
         this.server = server;
         this.backEndLanguage = backEndLanguage;
         this.frontEndLanguage = frontEndLanguage;
