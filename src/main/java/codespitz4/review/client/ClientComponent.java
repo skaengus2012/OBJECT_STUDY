@@ -16,30 +16,39 @@
 
 package codespitz4.review.client;
 
-import codespitz4.review.DevelopProcess;
-import codespitz4.review.Program;
+import dagger.Component;
+import dagger.Provides;
 import org.jetbrains.annotations.NotNull;
 
-import javax.inject.Inject;
-
-public final class ClientDevelopProcess implements DevelopProcess {
-
-    @NotNull
-    private final Client client;
+@Component(modules = ClientComponent.Module.class)
+public interface ClientComponent {
 
     @NotNull
-    private final ClientFrontEnd developer;
+    ClientDevelopProcess getDevelopProcess();
 
-    @Inject
-    public ClientDevelopProcess(@NotNull Client client, @NotNull ClientFrontEnd developer) {
-        this.client = client;
-        this.developer = developer;
+    @Component.Builder
+    interface Builder {
+        Builder setModule(@NotNull Module module);
+
+        @NotNull
+        ClientComponent build();
     }
 
-    @Override
-    public Program[] makePrograms() {
-        developer.setPaper(client);
+    @dagger.Module
+    class Module {
 
-        return new Program[] { developer.makeProgram() };
+        @NotNull
+        private final Client client;
+
+        public Module(@NotNull Client client) {
+            this.client = client;
+        }
+
+        @Provides
+        @NotNull
+        public Client provideClient() {
+            return client;
+        }
     }
+
 }
