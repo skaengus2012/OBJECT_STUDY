@@ -24,16 +24,15 @@ import java.util.Map;
 public final class Director {
 
     @NotNull
-    private final Map<String, DevelopProcess> pendingPaperGroup = new HashMap<>();
+    private final Map<String, Paper> pendingPaperGroup = new HashMap<>();
 
-    public void receivePaper(@NotNull String projectName, @NotNull DevelopProcess process) {
-        pendingPaperGroup.put(projectName, process);
+    public void receivePaper(@NotNull String projectName, @NotNull Paper paper) {
+        pendingPaperGroup.put(projectName, paper);
     }
 
     public void runProject(@NotNull String projectName) {
         if (pendingPaperGroup.containsKey(projectName)) {
-            DevelopProcess process = pendingPaperGroup.get(projectName);
-            deploy(projectName, process.makePrograms());
+            deploy(projectName, pendingPaperGroup.get(projectName).toDevelopProcess().makePrograms());
         } else {
             throw new RuntimeException("no project");
         }

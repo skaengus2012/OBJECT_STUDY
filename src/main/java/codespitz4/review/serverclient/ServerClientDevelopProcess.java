@@ -48,12 +48,4 @@ public final class ServerClientDevelopProcess implements DevelopProcess {
 
         return new Program[] { backEndDeveloper.makeProgram(), frontEndDeveloper.makeProgram() };
     }
-
-    @NotNull
-    public static ServerClientDevelopProcess create(@NotNull ServerClient serverClient) {
-        return DaggerServerClientComponent.builder()
-                .setModule(new ServerClientComponent.Module(serverClient))
-                .build()
-                .getDevelopProcess();
-    }
 }

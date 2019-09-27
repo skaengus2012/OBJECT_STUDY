@@ -16,8 +16,6 @@
 
 import codespitz4.review.*
 import codespitz4.review.client.Client
-import codespitz4.review.client.ClientDevelopProcess
-import codespitz4.review.client.ClientFrontEnd
 import codespitz4.review.serverclient.*
 import org.junit.Test
 
@@ -27,13 +25,7 @@ class CodeSpitz4ReviewTest {
     fun runProject_when_inputClient() = Director().run {
         val projectName = "가사뷰 개편"
 
-
-
-        receivePaper(projectName, ClientDevelopProcess(
-            Client(Library("C++ STL"), Language("C++")),
-            ClientFrontEnd()
-        ))
-
+        receivePaper(projectName, Client(Library("C++ STL"), Language("C++")))
         runProject(projectName)
     }
 
@@ -41,8 +33,7 @@ class CodeSpitz4ReviewTest {
     fun runProject_when_inputServerClient() = Director().run {
         val projectName = "ONE-P-T"
 
-        receivePaper(projectName, ServerClientDevelopProcess.create(
-            ServerClient(Server("Tomcat"), Language("java"), Language("js"))))
+        receivePaper(projectName, ServerClient(Server("Tomcat"), Language("java"), Language("js")))
         runProject(projectName)
     }
 }

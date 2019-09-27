@@ -16,6 +16,7 @@
 
 package codespitz4.review.serverclient;
 
+import codespitz4.review.DevelopProcess;
 import codespitz4.review.Language;
 import codespitz4.review.Paper;
 import org.jetbrains.annotations.NotNull;
@@ -51,5 +52,14 @@ public final class ServerClient implements Paper {
     @NotNull
     Server getServer() {
         return server;
+    }
+
+    @NotNull
+    @Override
+    public DevelopProcess toDevelopProcess() {
+        return DaggerServerClientComponent.builder()
+                .setModule(new ServerClientComponent.Module(this))
+                .build()
+                .getDevelopProcess();
     }
 }
