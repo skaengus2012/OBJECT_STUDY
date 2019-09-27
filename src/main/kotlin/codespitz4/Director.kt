@@ -29,5 +29,16 @@ class Director {
 
     private fun getProject(name: String): Paper = projects[name]?: throw RuntimeException("no project")
 
-    private fun deploy(projectName: String, vararg programs: Program) {}
+    private fun deploy(projectName: String, vararg programs: Program) {
+        println("[$projectName] 프로젝트 배포 시작")
+        println("프로젝트 배포 완료")
+
+        println("프로젝트 배포 목록")
+        for (program in programs) {
+            println(String.format("배포항목 : ${program.name}"))
+        }
+    }
+
+    private val Program.name: String
+        get() = javaClass.canonicalName
 }
