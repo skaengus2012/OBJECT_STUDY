@@ -2,7 +2,7 @@ package codespitz4.review;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class Client implements Paper {
+public abstract class Client implements Paper {
 
     @NotNull
     private final Library library;
@@ -16,12 +16,12 @@ public final class Client implements Paper {
     }
 
     @NotNull
-    public Library getLibrary() {
+    Library getLibrary() {
         return library;
     }
 
     @NotNull
-    public Language getLanguage() {
+    Language getLanguage() {
         return language;
     }
 }

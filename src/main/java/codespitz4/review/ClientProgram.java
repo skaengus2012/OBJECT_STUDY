@@ -18,7 +18,7 @@ package codespitz4.review;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class ClientProgram implements Program {
+final class ClientProgram implements Program {
 
     @NotNull
     private final Language language;
@@ -26,7 +26,7 @@ public final class ClientProgram implements Program {
     @NotNull
     private final Library library;
 
-    public ClientProgram(@NotNull Language language, @NotNull Library library) {
+    ClientProgram(@NotNull Language language, @NotNull Library library) {
         this.language = language;
         this.library = library;
     }

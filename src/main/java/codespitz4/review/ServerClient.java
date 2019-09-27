@@ -2,7 +2,7 @@ package codespitz4.review;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class ServerClient implements Paper {
+public abstract class ServerClient implements Paper {
 
     @NotNull
     private final Server server;
@@ -20,17 +20,17 @@ public final class ServerClient implements Paper {
     }
 
     @NotNull
-    public Language getBackEndLanguage() {
+    Language getBackEndLanguage() {
         return backEndLanguage;
     }
 
     @NotNull
-    public Language getFrontEndLanguage() {
+    Language getFrontEndLanguage() {
         return frontEndLanguage;
     }
 
     @NotNull
-    public Server getServer() {
+    Server getServer() {
         return server;
     }
 }

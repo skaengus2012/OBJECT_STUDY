@@ -16,31 +16,20 @@ public final class Director {
 
     public void runProject(@NotNull String projectName) {
         if (pendingPaperGroup.containsKey(projectName)) {
-            runProjectInternal(projectName, pendingPaperGroup.get(projectName));
+            Paper paper = pendingPaperGroup.get(projectName);
+            deploy(projectName, paper.makeProgram());
         } else {
             throw new RuntimeException("no project");
         }
     }
 
-    private void runProjectInternal(@NotNull String projectName, @NotNull Paper project) {
-        if (project instanceof ServerClient) {
-            BackEnd backEnd = new BackEnd();
-            FrontEnd frontEnd = new FrontEnd();
+    private void deploy(@NotNull String projectName, @NotNull Program... programs) {
+        System.out.println(String.format("[%s] 프로젝트 배포 시작", projectName));
+        System.out.println("프로젝트 배포 완료");
 
-            ServerClient serverClient = (ServerClient) project;
-            backEnd.setPaper(serverClient);
-            frontEnd.setPaper(serverClient);
-
-            deploy(projectName, backEnd.makeProgram(), frontEnd.makeProgram());
-        } else if (project instanceof Client) {
-            Client client = (Client) project;
-
-            FrontEnd frontEnd = new FrontEnd();
-            frontEnd.setPaper(client);
-
-            deploy(projectName, frontEnd.makeProgram());
+        System.out.println("프로젝트 배포 목록");
+        for (Program program : programs) {
+            System.out.println(String.format("배포항목 : %s", ProgramUtil.convertProgramName(program)));
         }
     }
-
-    private void deploy(@NotNull String projectName, @NotNull Program... programs) {}
 }
