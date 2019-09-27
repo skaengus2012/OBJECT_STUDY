@@ -1,8 +1,11 @@
-package codespitz4.review;
+package codespitz4.review.client;
 
+import codespitz4.review.Language;
+import codespitz4.review.Library;
+import codespitz4.review.Paper;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class Client implements Paper {
+public final class Client implements Paper {
 
     @NotNull
     private final Library library;

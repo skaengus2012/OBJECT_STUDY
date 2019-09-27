@@ -8,16 +8,16 @@ import java.util.Map;
 public final class Director {
 
     @NotNull
-    private final Map<String, Paper> pendingPaperGroup = new HashMap<>();
+    private final Map<String, DevelopProcess> pendingPaperGroup = new HashMap<>();
 
-    public void receivePaper(@NotNull String projectName, @NotNull Paper paper) {
-        pendingPaperGroup.put(projectName, paper);
+    public void receivePaper(@NotNull String projectName, @NotNull DevelopProcess process) {
+        pendingPaperGroup.put(projectName, process);
     }
 
     public void runProject(@NotNull String projectName) {
         if (pendingPaperGroup.containsKey(projectName)) {
-            Paper paper = pendingPaperGroup.get(projectName);
-            deploy(projectName, paper.makeProgram());
+            DevelopProcess process = pendingPaperGroup.get(projectName);
+            deploy(projectName, process.makePrograms());
         } else {
             throw new RuntimeException("no project");
         }

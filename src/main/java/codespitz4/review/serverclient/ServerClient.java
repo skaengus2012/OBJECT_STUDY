@@ -1,8 +1,10 @@
-package codespitz4.review;
+package codespitz4.review.serverclient;
 
+import codespitz4.review.Language;
+import codespitz4.review.Paper;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class ServerClient implements Paper {
+public final class ServerClient implements Paper {
 
     @NotNull
     private final Server server;

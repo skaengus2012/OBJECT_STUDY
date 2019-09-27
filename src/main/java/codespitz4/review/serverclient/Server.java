@@ -1,4 +1,4 @@
-package codespitz4.review;
+package codespitz4.review.serverclient;
 
 import org.jetbrains.annotations.NotNull;
 

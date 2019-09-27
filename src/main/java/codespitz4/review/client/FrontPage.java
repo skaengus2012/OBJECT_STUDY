@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package codespitz4.review;
+package codespitz4.review.client;
+import codespitz4.review.Language;
+import codespitz4.review.Program;
 import org.jetbrains.annotations.NotNull;
 
 public final class FrontPage implements Program {

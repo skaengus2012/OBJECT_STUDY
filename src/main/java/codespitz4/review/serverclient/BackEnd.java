@@ -1,5 +1,9 @@
-package codespitz4.review;
+package codespitz4.review.serverclient;
 
+import codespitz4.review.Developer;
+import codespitz4.review.Program;
+import codespitz4.review.serverclient.ServerClient;
+import codespitz4.review.serverclient.WebApplicationProgram;
 import org.jetbrains.annotations.NotNull;
 
 public final class BackEnd extends Developer<ServerClient> {

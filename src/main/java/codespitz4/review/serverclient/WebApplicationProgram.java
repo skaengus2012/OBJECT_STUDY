@@ -1,5 +1,7 @@
-package codespitz4.review;
+package codespitz4.review.serverclient;
 
+import codespitz4.review.Language;
+import codespitz4.review.Program;
 import org.jetbrains.annotations.NotNull;
 
 final class WebApplicationProgram implements Program {

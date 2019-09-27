@@ -6,7 +6,7 @@ final class ProgramUtil {
 
     private ProgramUtil() {}
 
-    public static String convertProgramName(@NotNull Program porgram) {
+    static String convertProgramName(@NotNull Program porgram) {
         return porgram.getClass().getSimpleName();
     }
 }

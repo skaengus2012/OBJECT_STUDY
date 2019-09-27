@@ -1,4 +1,8 @@
 import codespitz4.review.*
+import codespitz4.review.client.Client
+import codespitz4.review.client.ClientDevelopProcess
+import codespitz4.review.client.ClientFrontEnd
+import codespitz4.review.serverclient.*
 import org.junit.Test
 
 class CodeSpitz4ReviewTest {
@@ -7,14 +11,11 @@ class CodeSpitz4ReviewTest {
     fun runProject_when_inputClient() = Director().run {
         val projectName = "가사뷰 개편"
 
-        receivePaper(projectName, object : Client(Library("C++ STL"), Language("C++")) {
-            override fun makeProgram(): Array<Program> {
-                val developer = ClientFrontEnd()
-                developer.setPaper(this)
+        receivePaper(projectName, ClientDevelopProcess(
+            Client(Library("C++ STL"), Language("C++")),
+            ClientFrontEnd()
+        ))
 
-                return arrayOf(developer.makeProgram())
-            }
-        })
         runProject(projectName)
     }
 
@@ -22,17 +23,12 @@ class CodeSpitz4ReviewTest {
     fun runProject_when_inputServerClient() = Director().run {
         val projectName = "ONE-P-T"
 
-        receivePaper(projectName, object : ServerClient(Server("Tomcat"), Language("java"), Language("js")) {
-            override fun makeProgram(): Array<Program> {
-                val frontEndDeveloper = ServerClientFrontEnd()
-                val backEndDeveloper = BackEnd()
+        receivePaper(projectName, ServerClientDevelopProcess(
+            ServerClient(Server("Tomcat"), Language("java"), Language("js")),
+            ServerClientFrontEnd(),
+            BackEnd()
+        ))
 
-                frontEndDeveloper.setPaper(this)
-                backEndDeveloper.setPaper(this)
-
-                return arrayOf(backEndDeveloper.makeProgram(), frontEndDeveloper.makeProgram())
-            }
-        })
         runProject(projectName)
     }
 }
