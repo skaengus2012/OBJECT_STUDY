@@ -11,6 +11,8 @@ class CodeSpitz4ReviewTest {
     fun runProject_when_inputClient() = Director().run {
         val projectName = "가사뷰 개편"
 
+
+
         receivePaper(projectName, ClientDevelopProcess(
             Client(Library("C++ STL"), Language("C++")),
             ClientFrontEnd()
