@@ -14,33 +14,24 @@
  * limitations under the License.
  */
 
-package codespitz4.review.client;
+package codespitz4.review.serverclient;
 
-import codespitz4.review.Language;
-import codespitz4.review.Library;
-import codespitz4.review.Paper;
+
+import codespitz4.review.DevelopProcess;
+import dagger.Component;
 import org.jetbrains.annotations.NotNull;
 
-public final class Client implements Paper {
+@Component
+public interface ServerClientComponent {
 
     @NotNull
-    private final Library library;
+    DevelopProcess getDevelopProcess();
 
-    @NotNull
-    private final Language language;
+    @Component.Builder
+    interface Builder {
+        Builder propertyModule(@NotNull ServerClientPropertyModule module);
 
-    public Client(@NotNull Library library, @NotNull Language language) {
-        this.library = library;
-        this.language = language;
-    }
-
-    @NotNull
-    Library getLibrary() {
-        return library;
-    }
-
-    @NotNull
-    Language getLanguage() {
-        return language;
+        @NotNull
+        ServerClientComponent build();
     }
 }

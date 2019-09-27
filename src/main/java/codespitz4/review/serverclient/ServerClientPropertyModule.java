@@ -17,38 +17,53 @@
 package codespitz4.review.serverclient;
 
 import codespitz4.review.Language;
-import codespitz4.review.Paper;
+import dagger.Module;
+import dagger.Provides;
 import org.jetbrains.annotations.NotNull;
 
-public final class ServerClient implements Paper {
+import javax.inject.Named;
+
+@Module
+public final class ServerClientPropertyModule {
 
     @NotNull
-    private final Server server;
+    private Language backEndLanguage;
 
     @NotNull
-    private final Language backEndLanguage;
+    private Language frontEndLanguage;
 
     @NotNull
-    private final Language frontEndLanguage;
+    private Server server;
 
-    public ServerClient(@NotNull Server server, @NotNull Language backEndLanguage, @NotNull Language frontEndLanguage) {
-        this.server = server;
+    public ServerClientPropertyModule(
+            @NotNull Language backEndLanguage, @NotNull Language frontEndLanguage, @NotNull Server server) {
         this.backEndLanguage = backEndLanguage;
         this.frontEndLanguage = frontEndLanguage;
+        this.server = server;
     }
 
+    @Named(NamedConst.BACK_END)
+    @Provides
     @NotNull
-    Language getBackEndLanguage() {
+    public Language provideBackEndLanguage() {
         return backEndLanguage;
     }
 
+    @Named(NamedConst.FRONT_END)
+    @Provides
     @NotNull
-    Language getFrontEndLanguage() {
+    public Language provideFrontEndLanguage() {
         return frontEndLanguage;
     }
 
+    @Provides
     @NotNull
-    Server getServer() {
+    public Server provideServer() {
         return server;
+    }
+
+    static final class NamedConst {
+        static final String BACK_END = "BackEnd";
+        static final String FRONT_END = "FrontEnd";
     }
 }
