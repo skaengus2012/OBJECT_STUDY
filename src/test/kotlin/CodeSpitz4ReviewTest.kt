@@ -41,12 +41,8 @@ class CodeSpitz4ReviewTest {
     fun runProject_when_inputServerClient() = Director().run {
         val projectName = "ONE-P-T"
 
-        receivePaper(projectName, ServerClientDevelopProcess(
-            ServerClient(Server("Tomcat"), Language("java"), Language("js")),
-            ServerClientFrontEnd(),
-            BackEnd()
-        ))
-
+        receivePaper(projectName, ServerClientDevelopProcess.create(
+            ServerClient(Server("Tomcat"), Language("java"), Language("js"))))
         runProject(projectName)
     }
 }

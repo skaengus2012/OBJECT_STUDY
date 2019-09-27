@@ -16,22 +16,38 @@
 
 package codespitz4.review.serverclient;
 
-
-import codespitz4.review.DevelopProcess;
 import dagger.Component;
+import dagger.Provides;
 import org.jetbrains.annotations.NotNull;
 
-@Component
+@Component(modules = ServerClientComponent.Module.class)
 public interface ServerClientComponent {
 
     @NotNull
-    DevelopProcess getDevelopProcess();
+    ServerClientDevelopProcess getDevelopProcess();
 
     @Component.Builder
     interface Builder {
-        Builder propertyModule(@NotNull ServerClientPropertyModule module);
+        Builder setModule(@NotNull Module module);
 
         @NotNull
         ServerClientComponent build();
+    }
+
+    @dagger.Module
+    class Module {
+
+        @NotNull
+        private final ServerClient serverClient;
+
+        public Module(@NotNull ServerClient serverClient) {
+            this.serverClient = serverClient;
+        }
+
+        @Provides
+        @NotNull
+        public ServerClient provideServerClient() {
+            return serverClient;
+        }
     }
 }
