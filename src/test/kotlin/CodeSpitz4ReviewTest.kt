@@ -16,24 +16,40 @@
 
 import codespitz4.review.*
 import codespitz4.review.client.Client
+import codespitz4.review.client.ClientDevelopProcess
 import codespitz4.review.serverclient.*
+import org.junit.Before
 import org.junit.Test
 
 class CodeSpitz4ReviewTest {
 
+    private lateinit var serverClientDevelopProcessFactory: ServerClientDevelopProcess.Factory
+
+    private lateinit var clientDevelopProcessFactory: ClientDevelopProcess.Factory
+
+    @Before
+    fun initialize() {
+        val component = DaggerCodeSpitz4ReviewTestComponent.create()
+
+        serverClientDevelopProcessFactory = component.serverClientDevelopProcessFactory
+        clientDevelopProcessFactory = component.clientDevelopProcessFactory
+    }
+
     @Test
     fun runProject_when_inputClient() = Director().run {
         val projectName = "가사뷰 개편"
+        val project = Client(Library("C++ STL"), Language("C++"))
 
-        receivePaper(projectName, Client(Library("C++ STL"), Language("C++")))
+        addProject(projectName, clientDevelopProcessFactory.create(project))
         runProject(projectName)
     }
 
     @Test
     fun runProject_when_inputServerClient() = Director().run {
         val projectName = "ONE-P-T"
+        val serverClient = ServerClient(Server("Tomcat"), Language("java"), Language("js"))
 
-        receivePaper(projectName, ServerClient(Server("Tomcat"), Language("java"), Language("js")))
+        addProject(projectName, serverClientDevelopProcessFactory.create(serverClient))
         runProject(projectName)
     }
 }

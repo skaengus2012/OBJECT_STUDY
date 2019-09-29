@@ -16,7 +16,6 @@
 
 package codespitz4.review.client;
 
-import codespitz4.review.DevelopProcess;
 import codespitz4.review.Language;
 import codespitz4.review.Library;
 import codespitz4.review.Paper;
@@ -43,13 +42,5 @@ public final class Client implements Paper {
     @NotNull
     Language getLanguage() {
         return language;
-    }
-
-    @Override
-    public DevelopProcess toDevelopProcess() {
-        return DaggerClientComponent.builder()
-                .setModule(new ClientComponent.Module(this))
-                .build()
-                .getDevelopProcess();
     }
 }
