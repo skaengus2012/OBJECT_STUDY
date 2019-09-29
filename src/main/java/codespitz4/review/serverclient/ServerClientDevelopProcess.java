@@ -17,10 +17,13 @@
 package codespitz4.review.serverclient;
 
 import codespitz4.review.DevelopProcess;
+import codespitz4.review.Developer;
 import codespitz4.review.Program;
+import dagger.Reusable;
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 public final class ServerClientDevelopProcess implements DevelopProcess {
 
@@ -28,14 +31,16 @@ public final class ServerClientDevelopProcess implements DevelopProcess {
     private final ServerClient serverClient;
 
     @NotNull
-    private final ServerClientFrontEnd frontEndDeveloper;
+    private final Developer<ServerClient> frontEndDeveloper;
 
     @NotNull
-    private final BackEnd backEndDeveloper;
+    private final Developer<ServerClient> backEndDeveloper;
 
-    @Inject
-    public ServerClientDevelopProcess(
-            @NotNull ServerClient serverClient, @NotNull ServerClientFrontEnd frontEndDeveloper, @NotNull BackEnd backEndDeveloper) {
+    private ServerClientDevelopProcess(
+            @NotNull ServerClient serverClient,
+            @NotNull Developer<ServerClient> frontEndDeveloper,
+            @NotNull Developer<ServerClient> backEndDeveloper
+    ) {
         this.serverClient = serverClient;
         this.frontEndDeveloper = frontEndDeveloper;
         this.backEndDeveloper = backEndDeveloper;
@@ -47,5 +52,28 @@ public final class ServerClientDevelopProcess implements DevelopProcess {
         backEndDeveloper.setPaper(serverClient);
 
         return new Program[] { backEndDeveloper.makeProgram(), frontEndDeveloper.makeProgram() };
+    }
+
+    @Reusable
+    public static final class Factory {
+
+        @NotNull
+        private final Developer<ServerClient> frontEndDeveloper;
+
+        @NotNull
+        private final Developer<ServerClient> backEndDeveloper;
+
+        @Inject
+        public Factory(
+                @Named(ServerClientModule.NamedConst.FRONT_END_DEVELOPER) @NotNull Developer<ServerClient> frontEndDeveloper,
+                @Named(ServerClientModule.NamedConst.BACK_END_DEVELOPER) @NotNull Developer<ServerClient> backEndDeveloper) {
+            this.frontEndDeveloper = frontEndDeveloper;
+            this.backEndDeveloper = backEndDeveloper;
+        }
+
+        @NotNull
+        public  ServerClientDevelopProcess create(@NotNull ServerClient serverClient) {
+            return new ServerClientDevelopProcess(serverClient, frontEndDeveloper, backEndDeveloper);
+        }
     }
 }

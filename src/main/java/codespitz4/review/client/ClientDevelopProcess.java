@@ -17,7 +17,9 @@
 package codespitz4.review.client;
 
 import codespitz4.review.DevelopProcess;
+import codespitz4.review.Developer;
 import codespitz4.review.Program;
+import dagger.Reusable;
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
@@ -28,10 +30,9 @@ public final class ClientDevelopProcess implements DevelopProcess {
     private final Client client;
 
     @NotNull
-    private final ClientFrontEnd developer;
+    private final Developer<Client> developer;
 
-    @Inject
-    public ClientDevelopProcess(@NotNull Client client, @NotNull ClientFrontEnd developer) {
+    private ClientDevelopProcess(@NotNull Client client, @NotNull Developer<Client> developer) {
         this.client = client;
         this.developer = developer;
     }
@@ -41,5 +42,21 @@ public final class ClientDevelopProcess implements DevelopProcess {
         developer.setPaper(client);
 
         return new Program[] { developer.makeProgram() };
+    }
+
+    @Reusable
+    public static final class Factory {
+
+        @NotNull
+        private final Developer<Client> developer;
+
+        @Inject
+        public Factory(@NotNull Developer<Client> developer) {
+            this.developer = developer;
+        }
+
+        public ClientDevelopProcess create(@NotNull Client client) {
+            return new ClientDevelopProcess(client, developer);
+        }
     }
 }
