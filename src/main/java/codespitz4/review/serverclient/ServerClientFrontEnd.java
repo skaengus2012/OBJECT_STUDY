@@ -26,7 +26,7 @@ import javax.inject.Inject;
 public final class ServerClientFrontEnd extends Developer<ServerClient> {
 
     @Inject
-    public ServerClientFrontEnd() {
+    ServerClientFrontEnd() {
     }
 
     @NotNull

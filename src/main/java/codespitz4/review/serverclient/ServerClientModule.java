@@ -18,8 +18,8 @@ public abstract class ServerClientModule {
     @Binds
     public abstract Developer<ServerClient> bindBackEndDeveloper(@NotNull BackEnd developer);
 
-    public static class NamedConst {
-        static final String FRONT_END_DEVELOPER = "WEB_FRONT_END";
-        static final String BACK_END_DEVELOPER  = "WEB_BACK_END";
+    static class NamedConst {
+        static final String FRONT_END_DEVELOPER = "ServerClientModule_FRONT_END";
+        static final String BACK_END_DEVELOPER  = "ServerClientModule_BACK_END";
     }
 }

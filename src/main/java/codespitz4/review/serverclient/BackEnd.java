@@ -25,7 +25,7 @@ import javax.inject.Inject;
 public final class BackEnd extends Developer<ServerClient> {
 
     @Inject
-    public BackEnd() {
+    BackEnd() {
     }
 
     @NotNull
@@ -33,5 +33,4 @@ public final class BackEnd extends Developer<ServerClient> {
     protected Program makeProgramInternal(@NotNull ServerClient paper) {
         return new WebApplicationProgram(paper.getBackEndLanguage(), paper.getServer());
     }
-
 }
