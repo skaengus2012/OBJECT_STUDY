@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-package chapter9
+package chapter9.servicelocator
 
 import chapter2.DiscountPolicy
 
-class Movie : DiscountPolicyInjectable {
-
-    private lateinit var discountPolicy: DiscountPolicy
-
-    override fun inject(discountPolicy: DiscountPolicy) {
-        this.discountPolicy =  discountPolicy
-    }
+object ServiceLocator {
+    var discountPolicy: DiscountPolicy? = null
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package chapter9
+package chapter9.injection
 
 import chapter2.DiscountPolicy
 
