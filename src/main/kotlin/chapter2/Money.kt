@@ -42,6 +42,6 @@ class Money private constructor(private val amount: BigDecimal) {
     }
 
     operator fun compareTo(other: Money): Int {
-        return amount.compareTo(other.amount)
+        return amount.toFloat().compareTo(other.amount.toFloat())
     }
 }
