@@ -18,9 +18,22 @@ package codespitz6
 
 import codespitz2.Money
 
+/**
+ * 위임된 팩토리 + 구현체
+ *
+ * 순환참조 제거를 위해 이쪽으로 통합 가능
+ */
 class AmountCalculator(private val money: Money) : Calculator {
 
-    override fun calculateFee(fee: Money): Money = fee.minus(money)
+    private var cache: AmountCalculator? = null
+    /**
+     * 생성자체에는 관심이 없음
+     */
+    @Synchronized
+    private fun getCalculator(): Calculator = cache ?: AmountCalculator(money).apply { cache = this }
 
-
+    /**
+     * 구현체가 해야할 일을 Factory 쪽으로 위임
+     */
+    override fun calculateFee(fee: Money): Money = getCalculator().calculateFee(fee)
 }
