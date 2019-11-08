@@ -16,24 +16,14 @@
 
 package codespitz6
 
-import codespitz2.DiscountCondition
-import codespitz2.Money
-import codespitz2.Screening
+import chapter2.Money
+import chapter2.Screening
 
-class DiscountPolicy(private val calculatorSupplier: Calculator) {
 
-    private val conditions = mutableSetOf<DiscountCondition>()
+class DiscountPolicy(var policeFactory: PolicyFactory) {
 
-    fun addCondition(condition: DiscountCondition) {
-        conditions += condition
+    fun calculatorFee(screening: Screening, fee: Money): Money {
+        return policeFactory.calculateFee(screening, fee)
     }
 
-    fun calculatorFee(screening: Screening, count: Int, fee: Money): Money {
-        val isSatisfied =  conditions.any { condition -> condition.isSatisfiedBy(screening, count) }
-        return if (isSatisfied) {
-            calculatorSupplier.calculateFee(fee)
-        } else {
-            fee
-        }
-    }
 }

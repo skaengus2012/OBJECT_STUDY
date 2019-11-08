@@ -16,8 +16,9 @@
 
 package codespitz6
 
-import codespitz2.Money
+import chapter2.Money
+
 
 interface Calculator {
-    fun calculateFee(fee: Money):  Money
+    fun calculateFee(fee: Money): Money
 }
