@@ -1,3 +1,4 @@
+import chapter11.InstrumentedHashSet
 import chapter11.Properties
 import chapter11.Stack
 import org.junit.Assert.*
@@ -49,6 +50,16 @@ class CompositionRefactorTest {
         assertFailsWith(EmptyStackException::class) {
             stack.pop()
         }
+    }
+
+    @Test
+    fun testInstrumentedHashSet() {
+        val testSet = InstrumentedHashSet<Int>(mutableSetOf())
+        testSet.add(1)
+        testSet.add(2)
+        testSet.addAll(listOf(1, 2, 3))
+
+        assertEquals(5, testSet.addCount)
     }
 
 }
