@@ -14,30 +14,27 @@
  * limitations under the License.
  */
 
-package chapter10
+package chapter11
 
+import chapter10.Call
 import chapter2.Money
+import java.time.Duration
 
-abstract class Phone(
-    private val taxRate: Double
-) {
+class NightDiscountPolicy(
+    private val nightlyAmount: Money,
+    private val regularAmount: Money,
+    private val seconds: Duration
+) : BaseRatePolicy() {
 
-    private val _calls = mutableListOf<Call>()
-
-    val calls: List<Call>
-        get() = _calls
-
-    fun calculateFee(): Money {
-        return _calls
-            .asSequence()
-            .map { calculateCallFee(it) }
-            .reduce { acc, money -> acc.plus(money) }
-            .let { result -> result.plus(result.times(taxRate)) }
+    companion object {
+        private const val LATE_NIGHT_HOUR = 22
     }
 
-    protected abstract fun calculateCallFee(call: Call): Money
-
-    fun addCall(call: Call) {
-        _calls += call
+    override fun calculateCallFee(call: Call): Money {
+        return if (call.from.hour >= LATE_NIGHT_HOUR) {
+            nightlyAmount.times((call.duration.seconds / seconds.seconds).toDouble())
+        } else {
+            regularAmount.times((call.duration.seconds  / seconds.seconds).toDouble())
+        }
     }
 }

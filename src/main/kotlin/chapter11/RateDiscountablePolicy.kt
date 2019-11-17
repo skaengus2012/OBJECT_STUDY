@@ -14,30 +14,15 @@
  * limitations under the License.
  */
 
-package chapter10
+package chapter11
 
 import chapter2.Money
 
-abstract class Phone(
-    private val taxRate: Double
-) {
+class RateDiscountablePolicy(
+    private val discountAmount: Money,
+    next: RatePolicy
+) : AdditionalRatePolicy(next) {
 
-    private val _calls = mutableListOf<Call>()
+    override fun afterCalculated(fee: Money) = fee.minus(discountAmount)
 
-    val calls: List<Call>
-        get() = _calls
-
-    fun calculateFee(): Money {
-        return _calls
-            .asSequence()
-            .map { calculateCallFee(it) }
-            .reduce { acc, money -> acc.plus(money) }
-            .let { result -> result.plus(result.times(taxRate)) }
-    }
-
-    protected abstract fun calculateCallFee(call: Call): Money
-
-    fun addCall(call: Call) {
-        _calls += call
-    }
 }

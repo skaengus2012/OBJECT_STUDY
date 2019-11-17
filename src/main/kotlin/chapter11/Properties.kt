@@ -14,30 +14,23 @@
  * limitations under the License.
  */
 
-package chapter10
+package chapter11
 
-import chapter2.Money
+import java.util.*
 
-abstract class Phone(
-    private val taxRate: Double
-) {
+/**
+ * 기존의 Properties 는 제네릭이 나오기 전에 HashTable 을 상속받음
+ *
+ * 그렇기 때문에 String 제네릭형을 인식할 수 없다.
+ * (이는 원하는 input/output 에 대해 처리할 수 없었다.)
+ *
+ * 이를 합성을 통해 다음과 같이 처리했어야 했다.
+ */
+class Properties {
 
-    private val _calls = mutableListOf<Call>()
+    private val internalProperties: MutableMap<String, String> = Hashtable()
 
-    val calls: List<Call>
-        get() = _calls
+    fun setProperty(key: String, value: String) = internalProperties.put(key, value)
 
-    fun calculateFee(): Money {
-        return _calls
-            .asSequence()
-            .map { calculateCallFee(it) }
-            .reduce { acc, money -> acc.plus(money) }
-            .let { result -> result.plus(result.times(taxRate)) }
-    }
-
-    protected abstract fun calculateCallFee(call: Call): Money
-
-    fun addCall(call: Call) {
-        _calls += call
-    }
+    fun getProperty(key: String) = internalProperties[key]
 }

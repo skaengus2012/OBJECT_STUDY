@@ -14,30 +14,29 @@
  * limitations under the License.
  */
 
-package chapter10
+package chapter11
 
-import chapter2.Money
+import java.util.*
 
-abstract class Phone(
-    private val taxRate: Double
-) {
+/**
+ * 기존 Stack 은 Vector 를 그대로 상속하였기 때문에 불필요한 인터페이스를 상속받게 되었다.
+ * (ex. add)
+ *
+ * 이는 계약에 의한 설계에 의해 불변식이 위봔된다.
+ */
+class Stack<E> {
 
-    private val _calls = mutableListOf<Call>()
+    private val elements: Vector<E> = Vector()
 
-    val calls: List<Call>
-        get() = _calls
+    fun push(item: E): E {
+        elements.addElement(item)
 
-    fun calculateFee(): Money {
-        return _calls
-            .asSequence()
-            .map { calculateCallFee(it) }
-            .reduce { acc, money -> acc.plus(money) }
-            .let { result -> result.plus(result.times(taxRate)) }
+        return item
     }
 
-    protected abstract fun calculateCallFee(call: Call): Money
-
-    fun addCall(call: Call) {
-        _calls += call
+    fun pop(): E? = if (elements.isEmpty()) {
+        throw EmptyStackException()
+    } else {
+        elements.removeAt(elements.size - 1)
     }
 }
