@@ -20,6 +20,8 @@ package chapter11
  * 상속 시, 부모의 메소드가 잘못 재정의되어 생긴 사례가 InstrumentHashSet 이었다.
  *
  * 합성을 통해 부작용이 없는 상태로 구현가능하다.
+ *
+ * Set 인터페이스를 실체화하면서, 구현 결합도를 제거한다.
  */
 class InstrumentedHashSet<E>(
     private val set: MutableSet<E>
@@ -36,6 +38,8 @@ class InstrumentedHashSet<E>(
         addCount += elements.size
         return set.addAll(elements)
     }
+
+    // Delegate & 포워딩 메소드라 부른다.
     override fun clear() = set.clear()
     override fun iterator() = set.iterator()
     override fun remove(element: E): Boolean = set.remove(element)
