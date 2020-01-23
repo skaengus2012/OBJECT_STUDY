@@ -21,9 +21,18 @@ import chapter2.Money
 import java.time.Duration
 
 class PricePertime(
+    private val next: Calculator?, // 결국 링크드리스트의 next
     private val price: Money,
     private val second: Duration
 ) : Calculator {
 
-    override fun calculateCallFee(call: Call) = price.times((call.duration.seconds / second.seconds).toDouble())
+    override fun calculateCallFee(calls: Set<Call>, result: Money): Money {
+        // result 는 부수효과를 일으킴, 결국 여기서의 행위는 delegate
+        return calls.fold(
+                initial = result,
+                operation = { acc, call -> acc.plus(price.times((call.duration.seconds / second.seconds).toDouble())) }
+            )
+            .run { next?.calculateCallFee(calls, this) ?: this }
+    }
+
 }

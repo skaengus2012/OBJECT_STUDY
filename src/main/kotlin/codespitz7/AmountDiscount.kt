@@ -19,6 +19,12 @@ package codespitz7
 import chapter10.Call
 import chapter2.Money
 
-interface Calculator {
-    fun calculateCallFee(calls: Set<Call>, result: Money): Money
+class AmountDiscount(
+    private val next: Calculator?,
+    private val amount: Money
+) : Calculator {
+
+    override fun calculateCallFee(calls: Set<Call>, result: Money): Money {
+        return result.minus(amount).run { next?.calculateCallFee(calls, this) ?: this }
+    }
 }

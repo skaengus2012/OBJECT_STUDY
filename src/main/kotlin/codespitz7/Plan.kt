@@ -39,11 +39,8 @@ open class Plan {
         this.calculator = calculator
     }
 
-    fun calculateFee(): Money = calls
-        .map{ call -> calculator?.calculateCallFee(call) ?: Money.ZERO }
-        .fold(
-            initial = Money.ZERO,
-            operation = { acc, money ->  acc.plus(money) }
-        )
+    fun calculateFee(): Money {
+        return calculator?.calculateCallFee(calls, Money.ZERO) ?: Money.ZERO
+    }
 
 }
