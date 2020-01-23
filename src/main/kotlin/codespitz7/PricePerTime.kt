@@ -23,7 +23,7 @@ import java.time.Duration
 class PricePerTime(
     private val price: Money,
     private val second: Duration
-) : Calculator() {
+) : Calc {
 
     override fun calculate(calls: Set<Call>, result: Money) = calls.fold(
         initial = result,

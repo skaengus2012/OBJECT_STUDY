@@ -19,19 +19,19 @@ package codespitz7
 import chapter10.Call
 import chapter2.Money
 
-abstract class Calculator {
+class Calculator(calc: Calc) {
 
-    private var next: Calculator? = null
+    private val calcs = mutableSetOf(calc)
 
-    fun setNext(next: Calculator?): Calculator {
-        this.next = next
+    fun setNext(next: Calc?): Calculator {
+        next?.let(calcs::add)
 
         return this
     }
 
-    fun calculateCallFee(calls: Set<Call>, result: Money): Money {
-        return calculate(calls, result).run { next?.calculate(calls, this) ?: this }
-    }
+    fun calculateCallFee(calls: Set<Call>, result: Money) = calcs.fold(
+        initial = result,
+        operation = { acc, calc -> calc.calculate(calls, acc) }
+    )
 
-    protected abstract fun calculate(calls: Set<Call>, result: Money): Money
 }

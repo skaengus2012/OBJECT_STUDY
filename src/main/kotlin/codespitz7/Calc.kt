@@ -19,8 +19,6 @@ package codespitz7
 import chapter10.Call
 import chapter2.Money
 
-class AmountDiscount(private val amount: Money) : Calc {
-
-    override fun calculate(calls: Set<Call>, result: Money) = result.minus(amount)
-
+interface Calc {
+    fun calculate(calls: Set<Call>, result: Money): Money
 }
