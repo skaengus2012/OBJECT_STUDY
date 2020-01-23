@@ -18,12 +18,7 @@ package codespitz7
 
 import chapter10.Call
 import chapter2.Money
-import java.time.Duration
 
-class PricePertime(
-    private val price: Money,
-    private val second: Duration
-) : Calculator {
-
-    override fun calculateCallFee(call: Call) = price.times((call.duration.seconds / second.seconds).toDouble())
+interface Calculator {
+    fun calculateCallFee(call: Call): Money
 }

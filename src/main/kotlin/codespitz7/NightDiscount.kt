@@ -24,7 +24,7 @@ class NightDiscount(
     private val dayPrice: Money,
     private val nightPrice: Money,
     private val second: Duration
-) : Plan() {
+) : Calculator {
 
     override fun calculateCallFee(call: Call): Money {
         val price = if (call.from.hour >= 22) {

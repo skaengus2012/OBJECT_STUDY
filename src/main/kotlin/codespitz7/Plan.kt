@@ -20,24 +20,30 @@ import chapter10.Call
 import chapter2.Money
 
 /**
- * Phone 대신, Plan 으로 도메인 변경하여 사용.
- * 정보전문가 패턴 안티
+ * 소유모델로 변경
+ * normal 형태로 변형
+ *
+ * 미래의 상속을 위해 열어 놨다고 가정
  */
-abstract class Plan {
-
+open class Plan {
     private val calls = mutableSetOf<Call>()
+
+    private var calculator: Calculator? = null
 
     // add 메소드를 사용하도록 하면서, super 생성자 체인을 회피
     fun addCall(call: Call) {
         calls += call
     }
 
-    fun calculateFee(): Money = calls.map(this::calculateCallFee).fold(
-        initial = Money.ZERO,
-        operation = { acc, money ->  acc.plus(money) }
-    )
+    fun setCalculator(calculator: Calculator?) {
+        this.calculator = calculator
+    }
 
-    // 부분확장만 시키도록 처리
-    protected abstract fun calculateCallFee(call: Call): Money
+    fun calculateFee(): Money = calls
+        .map{ call -> calculator?.calculateCallFee(call) ?: Money.ZERO }
+        .fold(
+            initial = Money.ZERO,
+            operation = { acc, money ->  acc.plus(money) }
+        )
 
 }
