@@ -19,6 +19,6 @@ package codespitz7
 import chapter10.Call
 import chapter2.Money
 
-class Tax(private val ratio: Double) : Calc {
-    override fun calculate(calls: Set<Call>, result: Money) = result.plus(result.times(ratio))
+class Tax(private val ratio: Double) : Calculator {
+    override fun calculateCallFee(calls: Set<Call>, result: Money) = result.plus(result.times(ratio))
 }

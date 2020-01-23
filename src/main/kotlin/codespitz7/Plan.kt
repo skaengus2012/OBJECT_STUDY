@@ -28,6 +28,7 @@ import chapter2.Money
 open class Plan {
     private val calls = mutableSetOf<Call>()
 
+    // Composite 에 강하게 연결된다면, 이 기능이 Plan 으로 합쳐져야함
     private var calculator: Calculator? = null
 
     // add 메소드를 사용하도록 하면서, super 생성자 체인을 회피
@@ -40,6 +41,7 @@ open class Plan {
     }
 
     fun calculateFee(): Money {
+        // 계산 로직에 전혀 의존하지 않기 때문에 이 곳이 유연하게 조정됨
         return calculator?.calculateCallFee(calls, Money.ZERO) ?: Money.ZERO
     }
 

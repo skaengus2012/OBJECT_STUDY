@@ -19,19 +19,6 @@ package codespitz7
 import chapter10.Call
 import chapter2.Money
 
-class Calculator(calc: Calc) {
-
-    private val calcs = mutableSetOf(calc)
-
-    fun setNext(next: Calc?): Calculator {
-        next?.let(calcs::add)
-
-        return this
-    }
-
-    fun calculateCallFee(calls: Set<Call>, result: Money) = calcs.fold(
-        initial = result,
-        operation = { acc, calc -> calc.calculate(calls, acc) }
-    )
-
+interface Calculator {
+    fun calculateCallFee(calls: Set<Call>, result: Money): Money
 }

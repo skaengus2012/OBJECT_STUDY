@@ -19,6 +19,19 @@ package codespitz7
 import chapter10.Call
 import chapter2.Money
 
-interface Calc {
-    fun calculate(calls: Set<Call>, result: Money): Money
+class CompositeCalculator(calc: Calculator) : Calculator {
+
+    private val calcs = mutableSetOf(calc)
+
+    fun setNext(next: Calculator?): CompositeCalculator {
+        next?.let(calcs::add)
+
+        return this
+    }
+
+    override fun calculateCallFee(calls: Set<Call>, result: Money): Money = calcs.fold(
+        initial = result,
+        operation = { acc, calc -> calc.calculateCallFee(calls, acc) }
+    )
+
 }

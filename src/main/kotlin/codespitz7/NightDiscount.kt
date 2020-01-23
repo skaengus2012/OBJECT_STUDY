@@ -24,9 +24,9 @@ class NightDiscount(
     private val dayPrice: Money,
     private val nightPrice: Money,
     private val second: Duration
-) : Calc {
+) : Calculator {
 
-    override fun calculate(calls: Set<Call>, result: Money) = calls.fold(
+    override fun calculateCallFee(calls: Set<Call>, result: Money) = calls.fold(
         initial = result,
         operation = { acc, call ->
             val price = if (call.from.hour >= 22) {

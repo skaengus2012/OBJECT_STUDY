@@ -23,9 +23,9 @@ import java.time.Duration
 class PricePerTime(
     private val price: Money,
     private val second: Duration
-) : Calc {
+) : Calculator {
 
-    override fun calculate(calls: Set<Call>, result: Money) = calls.fold(
+    override fun calculateCallFee(calls: Set<Call>, result: Money) = calls.fold(
         initial = result,
         operation = { acc, call -> acc.plus(price.times((call.duration.seconds / second.seconds).toDouble())) }
     )

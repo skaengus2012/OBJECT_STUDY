@@ -26,7 +26,7 @@ class CodeSpitz7Test {
     fun `test for price per time with amount discount and tax`() {
         // 메인 코드가 콜백 지옥처럼 나옴
         Plan().setCalculator(
-            Calculator(PricePerTime(price = Money.wons(18), second = Duration.ofSeconds(60)))
+            CompositeCalculator(PricePerTime(price = Money.wons(18), second = Duration.ofSeconds(60)))
                 .setNext(AmountDiscount(amount = Money.wons(10000)))
                 .setNext(Tax(ratio = 0.1))
         )
