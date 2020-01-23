@@ -1,12 +1,4 @@
 
-import chapter2.Money
-import codespitz7.AmountDiscount
-import codespitz7.Plan
-import codespitz7.PricePertime
-import codespitz7.Tax
-import org.junit.Test
-import java.time.Duration
-
 /*
  * Copyright (C) 2007 The Android Open Source Project
  *
@@ -23,23 +15,23 @@ import java.time.Duration
  * limitations under the License.
  */
 
+import chapter2.Money
+import codespitz7.AmountDiscount
+import codespitz7.Plan
+import codespitz7.PricePerTime
+import codespitz7.Tax
+import org.junit.Test
+import java.time.Duration
+
 class CodeSpitz7Test {
 
     @Test
     fun `test for price per time with amount discount and tax`() {
         // 메인 코드가 콜백 지옥처럼 나옴
         Plan().setCalculator(
-            PricePertime(
-                next = AmountDiscount(
-                    next = Tax(
-                        next = null,
-                        ratio = 0.1
-                    ),
-                    amount = Money.wons(10000)
-                ),
-                price = Money.wons(18),
-                second = Duration.ofSeconds(60)
-            )
+            PricePerTime(price = Money.wons(18), second = Duration.ofSeconds(60))
+                .setNext(AmountDiscount(amount = Money.wons(10000)))
+                .setNext(Tax(ratio = 0.1))
         )
     }
 

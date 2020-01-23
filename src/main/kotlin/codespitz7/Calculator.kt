@@ -19,6 +19,19 @@ package codespitz7
 import chapter10.Call
 import chapter2.Money
 
-interface Calculator {
-    fun calculateCallFee(calls: Set<Call>, result: Money): Money
+abstract class Calculator {
+
+    private var next: Calculator? = null
+
+    fun setNext(next: Calculator?): Calculator {
+        this.next = next
+
+        return this
+    }
+
+    fun calculateCallFee(calls: Set<Call>, result: Money): Money {
+        return calculate(calls, result).run { next?.calculate(calls, this) ?: this }
+    }
+
+    protected abstract fun calculate(calls: Set<Call>, result: Money): Money
 }

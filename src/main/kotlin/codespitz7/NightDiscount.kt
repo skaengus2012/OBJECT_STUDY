@@ -21,25 +21,21 @@ import chapter2.Money
 import java.time.Duration
 
 class NightDiscount(
-    private val next: Calculator?,
     private val dayPrice: Money,
     private val nightPrice: Money,
     private val second: Duration
-) : Calculator {
+) : Calculator() {
 
-    override fun calculateCallFee(calls: Set<Call>, result: Money): Money {
-        return calls.fold(
-                initial = result,
-                operation = { acc, call ->
-                    val price = if (call.from.hour >= 22) {
-                        nightPrice
-                    } else {
-                        dayPrice
-                    }
+    override fun calculate(calls: Set<Call>, result: Money) = calls.fold(
+        initial = result,
+        operation = { acc, call ->
+            val price = if (call.from.hour >= 22) {
+                nightPrice
+            } else {
+                dayPrice
+            }
 
-                    acc.plus(price.times((call.duration.seconds / second.seconds).toDouble()))
-                }
-            )
-            .run { next?.calculateCallFee(calls, result) ?: this }
-    }
+            acc.plus(price.times((call.duration.seconds / second.seconds).toDouble()))
+        }
+    )
 }
