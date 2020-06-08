@@ -32,8 +32,8 @@ class CompositeTask(
         isComplete = !isComplete
     }
 
-    fun addTask(title: String, date: LocalDateTime) {
-        tasks += CompositeTask(title, date)
+    fun addTask(title: String, date: LocalDateTime): CompositeTask = CompositeTask(title, date).also { newTask ->
+        tasks += newTask
     }
 
     fun removeTask(task: CompositeTask) {
