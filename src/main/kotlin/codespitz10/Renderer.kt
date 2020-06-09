@@ -39,15 +39,18 @@ class Renderer(
     fun render(report: TaskReport) {
         // 트랜잭션..
         // 변수 선언은 트랜잭션에 관여하겠다는 거임
-        render(visitorFactory.invoke(), report, 0)
+        render(visitorFactory.invoke(), report, 0, isEnd = true)
     }
 
     companion object {
 
-        private fun render(visitor: Visitor, report: TaskReport, depth: Int) {
+        private fun render(visitor: Visitor, report: TaskReport, depth: Int, isEnd: Boolean) {
             visitor.onDrawTask(report.task, depth)
-            report.childTaskReports.forEach { render(visitor, it, depth + 1) }
-            visitor.onEnd(depth)
+
+            val subList = report.childTaskReports
+            var index = subList.size
+            subList.forEach { render(visitor, it, depth + 1, isEnd = --index == 0) }
+            visitor.onEnd(depth, isEnd)
         }
 
     }

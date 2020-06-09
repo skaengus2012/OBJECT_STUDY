@@ -14,26 +14,34 @@
  * limitations under the License.
  */
 
-package codespitz10.visitor
+package codespitz11
 
 import codespitz10.CompositeTask
 import codespitz10.Visitor
 import java.lang.StringBuilder
 
-class ConsoleVisitor : Visitor {
+/**
+ * @author Doohyun
+ */
+class JsonSerializableVisitor : Visitor {
+
+    private val builder = StringBuilder()
 
     override fun onDrawTask(task: CompositeTask, depth: Int) {
-        println("${getPadding(depth)}${if (task.isComplete) "[v] " else "[ ]"}${task.title}(${task.date})")
+        builder.append("{")
+        builder.append("  title: \"${task.title}\",")
+        builder.append("  date: \"${task.date}\",")
+        builder.append("  isComplete: ${task.isComplete},")
+        builder.append("  sub: [")
     }
 
-    override fun onEnd(depth: Int, isEnd: Boolean) = Unit
-
-    companion object {
-
-        fun getPadding(depth: Int): String = StringBuilder()
-            .apply { (0 until depth).map { "-" }.forEach { append(it) } }
-            .toString()
-
+    override fun onEnd(depth: Int, isEnd: Boolean) {
+        builder.append("  ]")
+        builder.append("}")
+        if (!isEnd) {
+            builder.append(",")
+        }
     }
 
+    fun toJson(): String = builder.toString()
 }

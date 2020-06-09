@@ -18,6 +18,7 @@ package codespitz10.visitor
 
 import codespitz10.CompositeTask
 import codespitz10.Visitor
+import com.sun.org.apache.xpath.internal.operations.Bool
 import java.lang.StringBuilder
 
 class JsonVisitor : Visitor {
@@ -32,10 +33,15 @@ class JsonVisitor : Visitor {
         println("${padding}${BLANK}sub: [")
     }
 
-    override fun onEnd(depth: Int) {
+    override fun onEnd(depth: Int, isEnd: Boolean) {
         val padding = getPadding(depth)
         println("${padding}${BLANK}]")
-        println("${padding}},")
+        print("${padding}}")
+        if (!isEnd) {
+            print(",")
+        }
+
+        println()
     }
 
     companion object {

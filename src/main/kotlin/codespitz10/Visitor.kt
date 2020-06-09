@@ -18,5 +18,5 @@ package codespitz10
 
 interface Visitor {
     fun onDrawTask(task: CompositeTask, depth: Int)
-    fun onEnd(depth: Int)
+    fun onEnd(depth: Int, isEnd: Boolean)
 }

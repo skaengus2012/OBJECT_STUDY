@@ -18,6 +18,7 @@ package codespitz11
 
 import codespitz10.CompositeSortType
 import codespitz10.CompositeTask
+import codespitz10.Renderer
 import codespitz10.TaskReport
 import java.time.LocalDateTime
 
@@ -31,6 +32,8 @@ class CommandTask(title: String, date: LocalDateTime) {
     private val task = CompositeTask(title, date)
 
     private val commands = mutableListOf<Command>()
+
+    private val saved = mutableMapOf<String, String>()
 
     private var cursor: Int = INITIALIZE_COMMAND_CURSOR_VALUE
 
@@ -78,6 +81,18 @@ class CommandTask(title: String, date: LocalDateTime) {
         if (cursor < commands.size - 1) {
             commands[++cursor].execute(task)
         }
+    }
+
+    fun save(key: String) {
+        val visitor = JsonSerializableVisitor()
+        Renderer { visitor }.render(task.getTaskReport(CompositeSortType.TITLE_ASC))
+        saved[key] = visitor.toJson()
+    }
+
+    fun load(key: String) {
+        val json = saved[key]
+        // Task 를 모두 날린다.
+        // JSON (Composite) 를 순회하면서 task 에 끼워줌.
     }
 
     companion object {
