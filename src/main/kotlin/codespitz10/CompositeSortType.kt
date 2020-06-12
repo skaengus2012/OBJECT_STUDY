@@ -18,11 +18,11 @@ package codespitz10
 
 enum class CompositeSortType : Comparator<CompositeTask> {
 
-    TITLE_DESC {
+    TITLE_ASC {
         override fun compare(o1: CompositeTask, o2: CompositeTask): Int = o1.title.compareTo(o2.title)
     },
 
-    TITLE_ASC {
+    TITLE_DESC {
         override fun compare(o1: CompositeTask, o2: CompositeTask): Int = o2.title.compareTo(o1.title)
     },
 

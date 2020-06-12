@@ -2,6 +2,7 @@ import codespitz10.CompositeSortType
 import codespitz10.CompositeTask
 import codespitz10.Renderer
 import codespitz10.visitor.ConsoleVisitor
+import codespitz10.visitor.JsonVisitor
 import codespitz11.CommandTask
 import org.junit.Before
 import org.junit.Test
@@ -35,6 +36,20 @@ class CodeSpitz11Test {
         task = CommandTask(title = "root", date = LocalDateTime.now()).also { root ->
             root.addTask(title = "sub1", date = LocalDateTime.now())
             root.addTask(title = "sub2", date = LocalDateTime.now())
+            root.getTaskReport(CompositeSortType.TITLE_ASC).also { report ->
+                val reports = report.childTaskReports
+                reports[0].task.also { sub1 ->
+                    sub1.addTask(title = "sub1_1", date = LocalDateTime.now())
+                    sub1.addTask(title = "sub1_2", date = LocalDateTime.now())
+                }
+                reports[1].task.also { sub2->
+                    sub2.addTask(title = "sub2_1", date = LocalDateTime.now())
+                    sub2.addTask(title = "sub2_2", date = LocalDateTime.now())
+                    sub2.getTaskReport(CompositeSortType.TITLE_ASC).also { sub2Report ->
+                        sub2Report.childTaskReports[0].task.addTask(title = "sub2_1_1", date = LocalDateTime.now())
+                    }
+                }
+            }
         }
     }
 
@@ -51,6 +66,26 @@ class CodeSpitz11Test {
         task.redo()
         task.redo()
         Renderer { ConsoleVisitor() }.render(task.getTaskReport(CompositeSortType.DATE_DESC))
+    }
+
+    @Test
+    fun `restore when task saved`() {
+        val savedKey = "SAVE_KEY"
+        task.save(savedKey)
+        task.clearTask()
+
+        task.load(savedKey)
+        Renderer { ConsoleVisitor() }.render(task.getTaskReport(CompositeSortType.TITLE_ASC))
+    }
+
+    companion object {
+
+        private fun CommandTask.clearTask() {
+            getTaskReport(CompositeSortType.TITLE_ASC).childTaskReports.forEach { remoteTask(it.task) }
+            title = ""
+            date = LocalDateTime.MIN
+        }
+
     }
 
 }

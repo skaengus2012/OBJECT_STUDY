@@ -18,7 +18,6 @@ package codespitz10.visitor
 
 import codespitz10.CompositeTask
 import codespitz10.Visitor
-import com.sun.org.apache.xpath.internal.operations.Bool
 import java.lang.StringBuilder
 
 class JsonVisitor : Visitor {
