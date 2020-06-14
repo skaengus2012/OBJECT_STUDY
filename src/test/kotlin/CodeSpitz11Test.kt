@@ -7,6 +7,7 @@ import codespitz11.CommandTask
 import org.junit.Before
 import org.junit.Test
 import java.time.LocalDateTime
+import java.util.*
 
 /*
  * Copyright (C) 2007 The Android Open Source Project
@@ -70,11 +71,24 @@ class CodeSpitz11Test {
 
     @Test
     fun `restore when task saved`() {
-        val savedKey = "SAVE_KEY"
+        val savedKey = UUID.randomUUID().toString()
         task.save(savedKey)
         task.clearTask()
 
+        task.title = "root_(1)"
+        task.date = LocalDateTime.now()
+        task.toggle()
+        task.addTask("sub1_(1)", LocalDateTime.now())
         task.load(savedKey)
+        println("1. Load ------------------------")
+        Renderer { ConsoleVisitor() }.render(task.getTaskReport(CompositeSortType.TITLE_ASC))
+
+        println("2. Undo ------------------------")
+        task.undo()
+        Renderer { ConsoleVisitor() }.render(task.getTaskReport(CompositeSortType.TITLE_ASC))
+
+        println("3. Redo ------------------------")
+        task.redo()
         Renderer { ConsoleVisitor() }.render(task.getTaskReport(CompositeSortType.TITLE_ASC))
     }
 

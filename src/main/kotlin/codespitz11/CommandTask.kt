@@ -92,85 +92,10 @@ class CommandTask(title: String, date: LocalDateTime) {
         saved[key] = visitor.toJson()
     }
 
-    fun load(key: String) {
-        val json = checkNotNull(saved[key])
-
-        task.title = findTitle(json, 0)
-        task.date = findDate(json, 0)
-        if (task.isComplete != findIsComplete(json, 0)) {
-            toggle()
-        }
-
-        loadCompositeTask(task, json, startIndex = json.indexOf("[") + 1, endIndex = json.lastIndexOf("]"))
-
-        commands.clear()
-        cursor = INITIALIZE_COMMAND_CURSOR_VALUE
-    }
-
-    private fun loadCompositeTask(parentTask: CompositeTask, json: String, startIndex: Int, endIndex: Int): Int {
-        var index = startIndex
-        while (index < endIndex) {
-            if (taskIndexOf(json, index) != -1) {
-                parentTask.addTask(findTitle(json, index), findDate(json, index))
-                val newTask = parentTask.getTaskReport(savedSortType).childTaskReports.last().task
-                if (newTask.isComplete != findIsComplete(json, index)) {
-                    newTask.toggle()
-                }
-
-                val startSubIndex = json.indexOf("[", index)
-                val endSubIndex = json.indexOf("]", index)
-                val subItemLength = json.substring(startSubIndex, endSubIndex).replace(" ", "").length
-                 if (subItemLength > 2) {
-                     index = loadCompositeTask(newTask, json, startSubIndex + 1, endIndex)
-                } else {
-                     index = endSubIndex + 1
-                     val nextStartBracket = json.indexOf("{", index)
-                     val nextEndArrayBracket = json.indexOf("]", index)
-                     if (nextEndArrayBracket < nextStartBracket) {
-                         index = nextEndArrayBracket + 1
-                         break
-                     }
-                }
-            } else {
-                index = json.lastIndexOf("]")
-                break
-            }
-        }
-
-        return index
-    }
+    fun load(key: String) = addCommand(Load(json = checkNotNull(saved[key]), savedSortType = savedSortType))
 
     companion object {
         private const val INITIALIZE_COMMAND_CURSOR_VALUE = 0
-
-        private fun taskIndexOf(json: String, startIndex: Int): Int {
-            return json.indexOf("title", startIndex)
-        }
-
-        private fun findTitle(json: String, startIndex: Int): String {
-            val fieldStartIndex = json.indexOf("title", startIndex)
-            val valueStartIndex = json.indexOf("\"", fieldStartIndex)
-            val valueEndIndex = json.indexOf("\"", valueStartIndex + 1)
-
-            return json.substring(valueStartIndex + 1, valueEndIndex)
-        }
-
-        private fun findDate(json: String, startIndex: Int): LocalDateTime {
-            val fieldStartIndex = json.indexOf("date", startIndex)
-            val valueStartIndex = json.indexOf("\"", fieldStartIndex)
-            val valueEndIndex = json.indexOf("\"", valueStartIndex + 1)
-
-            return LocalDateTime.parse(json.substring(valueStartIndex + 1, valueEndIndex))
-        }
-
-        private fun findIsComplete(json: String, startIndex: Int): Boolean {
-            val fieldStartIndex = json.indexOf("isComplete", startIndex)
-            val valueStartIndex = json.indexOfAny(listOf("true", "false"), fieldStartIndex)
-            val valueEndIndex = json.indexOf(",", valueStartIndex + 1)
-
-            return json.substring(valueStartIndex, valueEndIndex - 1).trim().toBoolean()
-        }
-
         private val savedSortType = CompositeSortType.TITLE_ASC
     }
 
